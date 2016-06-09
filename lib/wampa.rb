@@ -1,10 +1,13 @@
-require "wampa/version"
+require "wampa/resource"
 require "wampa/people"
+require "wampa/version"
+
+require "json"
 
 module Wampa
   class << self
     def make_request(api_path=nil)
-      uri = URI("http://swapi.co/api/#{api_path}#{'/' if api_path}")
+      uri = URI("http://swapi.co/api/#{api_path}")
       Net::HTTP.get(uri)
     end
 

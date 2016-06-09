@@ -1,7 +1,6 @@
 class Wampa::People
-  class << self
-    def find(id)
-      Wampa.make_request("people/#{id}")
-    end
-  end
+  include Wampa::Resource
+  @collection = [] # turn this into a hash when we have an id
+  @schema = nil
+  RESOURCE_NAME = 'people'
 end
