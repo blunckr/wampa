@@ -13,7 +13,7 @@ module Wampa::Resource
     def find(id)
       resource_hash = Wampa.make_request("#{self::RESOURCE_NAME}/#{id}/")
       resource = self.new resource_hash
-      @collection << resource
+      @collection[resource.id] = resource
       resource
     end
 
@@ -21,8 +21,11 @@ module Wampa::Resource
 
     end
 
-    def schema
-      @schema ||= Wampa.make_request("#{self::RESOURCE_NAME}/schema")
+    private
+
+    def fields
+      schema_data = YAML.load(File.read("data/#{self::RESOURCE_NAME}.yml"))
+      schema_data['properties'].keys
     end
   end
 end

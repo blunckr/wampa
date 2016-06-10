@@ -12,34 +12,35 @@ module Wampa
       JSON.parse result
     end
 
-    def resources_schema
-      @resources_schema ||= begin
-        path = 'data/resources.yml'
-        return {} unless File.file? path
-        YAML.load(File.read(path))
-      end
-    end
+    private
 
     def new_resource_class(resource_name)
       Class.new do
         include Wampa::Resource
-        @collection = [] # turn this into a hash when we have an id
-        @schema = nil
+        @collection = {}
         const_set 'RESOURCE_NAME', resource_name
+        const_set 'FIELDS', fields
+
+        self::FIELDS.each do |field|
+          attr_reader field
+        end
+
+        def id
+          @id ||= url.match(/(\d+)\/$/).captures[0]
+        end
       end
+    end
+
+    def resources_list
+      path = 'data/resources.yml'
+      return {} unless File.file? path
+      YAML.load(File.read(path)).keys
     end
   end
 
-  RESOURCES = resources_schema.keys
+  RESOURCES = resources_list
 
   RESOURCES.each do |resource_name|
     const_set resource_name.capitalize, new_resource_class(resource_name)
   end
 end
-
-# class Wampa::People
-#   include Wampa::Resource
-#   @collection = [] # turn this into a hash when we have an id
-#   @schema = nil
-#   RESOURCE_NAME = 'people'
-# end
