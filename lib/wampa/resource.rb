@@ -11,8 +11,7 @@ module Wampa::Resource
 
   module ClassMethods
     def find(id)
-      response = Wampa.make_request("#{self::RESOURCE_NAME}/#{id}/")
-      resource_hash = JSON.parse(response)
+      resource_hash = Wampa.make_request("#{self::RESOURCE_NAME}/#{id}/")
       resource = self.new resource_hash
       @collection << resource
       resource
