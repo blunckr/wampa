@@ -1,0 +1,7 @@
+---
+people: http://swapi.co/api/people/
+planets: http://swapi.co/api/planets/
+films: http://swapi.co/api/films/
+species: http://swapi.co/api/species/
+vehicles: http://swapi.co/api/vehicles/
+starships: http://swapi.co/api/starships/

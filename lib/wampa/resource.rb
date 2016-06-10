@@ -1,16 +1,12 @@
 module Wampa::Resource
-  def self.included base
-    base.send :include, InstanceMethods
+  def self.included(base)
     base.extend ClassMethods
   end
 
-  module InstanceMethods
-    def initialize(attrs)
-      attrs.each do |name, attr|
-        instance_variable_set "@#{name}", attr
-      end
+  def initialize(attrs)
+    attrs.each do |name, attr|
+      instance_variable_set "@#{name}", attr
     end
-
   end
 
   module ClassMethods
