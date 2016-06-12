@@ -22,11 +22,21 @@ module Wampa
         const_set 'FIELDS', fields
 
         self::FIELDS.each do |field|
-          attr_reader field
-        end
+          if RESOURCES.include? field
+            define_method "#{field}_ids" do
+              instance_variable_get("@#{field}").map do |path|
+                extract_id_from_path(path)
+              end
+            end
 
-        def id
-          @id ||= url.match(/(\d+)\/$/).captures[0]
+            define_method field do
+              send("#{field}_ids").map do |resource_id|
+                Wampa.const_get(field.capitalize).find(resource_id)
+              end
+            end
+          else
+            attr_reader field
+          end
         end
       end
     end
