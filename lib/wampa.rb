@@ -7,7 +7,11 @@ require 'pry'
 module Wampa
   class << self
     def make_request(api_path=nil)
-      uri = URI("http://swapi.co/api/#{api_path}")
+      make_raw_request "http://swapi.co/api/#{api_path}"
+    end
+
+    def make_raw_request(path)
+      uri = URI(path)
       result = Net::HTTP.get(uri)
       JSON.parse result
     end

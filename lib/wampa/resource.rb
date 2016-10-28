@@ -29,7 +29,7 @@ module Wampa::Resource
       resource
     end
 
-    def find_all
+    def find_all(next_page=nil)
 
     end
 

@@ -1,57 +1,5 @@
 ---
-properties:
-  designation:
-    description: The designation of this species.
-    type: string
-  films:
-    description: " An array of Film URL Resources that this species has appeared in."
-    type: array
-  average_lifespan:
-    description: The average lifespan of this species in years.
-    type: string
-  people:
-    description: An array of People URL Resources that are a part of this species.
-    type: array
-  url:
-    description: The hypermedia URL of this resource.
-    type: string
-  average_height:
-    description: The average height of this person in centimeters.
-    type: string
-  classification:
-    description: The classification of this species.
-    type: string
-  eye_colors:
-    description: A comma-seperated string of common eye colors for this species, none
-      if this species does not typically have eyes.
-    type: string
-  edited:
-    description: the ISO 8601 date format of the time that this resource was edited.
-    type: string
-  created:
-    description: " the ISO 8601 date format of the time that this resource was created."
-    type: string
-  language:
-    description: The language commonly spoken by this species.
-    type: string
-  skin_colors:
-    description: A comma-seperated string of common skin colors for this species,
-      none if this species does not typically have skin.
-    type: string
-  homeworld:
-    description: The URL of a planet resource, a planet that this species originates
-      from.
-    type: string
-  name:
-    description: The name of this species.
-    type: string
-  hair_colors:
-    description: A comma-seperated string of common hair colors for this species,
-      none if this species does not typically have hair.
-    type: string
-description: A species within the Star Wars universe
 title: People
-"$schema": http://json-schema.org/draft-04/schema
 required:
 - name
 - height
@@ -67,4 +15,56 @@ required:
 - vehicles
 - starships
 - url
+properties:
+  designation:
+    type: string
+    description: The designation of this species.
+  average_lifespan:
+    type: string
+    description: The average lifespan of this species in years.
+  created:
+    type: string
+    description: " the ISO 8601 date format of the time that this resource was created."
+  eye_colors:
+    type: string
+    description: A comma-seperated string of common eye colors for this species, none
+      if this species does not typically have eyes.
+  average_height:
+    type: string
+    description: The average height of this person in centimeters.
+  homeworld:
+    type: string
+    description: The URL of a planet resource, a planet that this species originates
+      from.
+  skin_colors:
+    type: string
+    description: A comma-seperated string of common skin colors for this species,
+      none if this species does not typically have skin.
+  language:
+    type: string
+    description: The language commonly spoken by this species.
+  films:
+    type: array
+    description: " An array of Film URL Resources that this species has appeared in."
+  edited:
+    type: string
+    description: the ISO 8601 date format of the time that this resource was edited.
+  classification:
+    type: string
+    description: The classification of this species.
+  name:
+    type: string
+    description: The name of this species.
+  people:
+    type: array
+    description: An array of People URL Resources that are a part of this species.
+  hair_colors:
+    type: string
+    description: A comma-seperated string of common hair colors for this species,
+      none if this species does not typically have hair.
+  url:
+    type: string
+    description: The hypermedia URL of this resource.
 type: object
+description: A species within the Star Wars universe
+"$schema": http://json-schema.org/draft-04/schema
