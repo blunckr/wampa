@@ -1,12 +1,13 @@
-require "wampa/resource"
-require "wampa/version"
+require 'wampa/resource'
+require 'wampa/version'
 
-require "json"
-require "yaml"
+require 'json'
+require 'yaml'
 require 'pry'
+
 module Wampa
   class << self
-    def make_request(api_path=nil)
+    def make_request(api_path = nil)
       make_raw_request "http://swapi.co/api/#{api_path}"
     end
 
@@ -26,20 +27,23 @@ module Wampa
         const_set 'FIELDS', fields
 
         self::FIELDS.each do |field|
-          if RESOURCES.include? field
+          # if this field represents a relationship
+          if !RESOURCES.include? field
+            attr_reader field
+          else
+            # get ids in relationship
             define_method "#{field}_ids" do
               instance_variable_get("@#{field}").map do |path|
                 extract_id_from_path(path)
               end
             end
 
+            # load actual relationships
             define_method field do
               send("#{field}_ids").map do |resource_id|
                 Wampa.const_get(field.capitalize).find(resource_id)
               end
             end
-          else
-            attr_reader field
           end
         end
       end
@@ -47,7 +51,6 @@ module Wampa
 
     def resources_list
       path = 'data/resources.yml'
-      return {} unless File.file? path
       YAML.load(File.read(path)).keys
     end
   end

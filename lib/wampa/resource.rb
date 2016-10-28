@@ -7,6 +7,7 @@ module Wampa::Resource
     attrs.each do |name, attr|
       instance_variable_set "@#{name}", attr
     end
+    self.class.collection[id] = self
   end
 
   def id
@@ -16,7 +17,7 @@ module Wampa::Resource
   private
 
   def extract_id_from_path(path)
-    path.match(/(\d+)\/$/).captures[0]
+    path.scan(/(\d+)\/$/)[0][0]
   end
 
   module ClassMethods
@@ -24,13 +25,26 @@ module Wampa::Resource
       resource = @collection[id.to_s]
       return resource if resource
       resource_hash = Wampa.make_request("#{self::RESOURCE_NAME}/#{id}/")
-      resource = self.new resource_hash
-      @collection[resource.id] = resource
+      resource = new resource_hash
       resource
     end
 
-    def find_all(next_page=nil)
+    def find_all(next_page = nil)
+      response =
+        if next_page
+          Wampa.make_raw_request(next_page)
+        else
+          Wampa.make_request("#{self::RESOURCE_NAME}/")
+        end
+      response['results'].each do |resource|
+        new resource
+      end
+      return if response['next'].nil?
+      find_all response['next']
+    end
 
+    def collection
+      @collection
     end
 
     private

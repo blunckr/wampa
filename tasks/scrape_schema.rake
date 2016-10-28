@@ -1,5 +1,5 @@
 require 'pry'
-desc "Get the latest schema from swapi.co"
+desc 'Get the latest schema from swapi.co'
 task :scrape_schema do
   FileUtils.rm_rf(Dir.glob('data/*'))
 
